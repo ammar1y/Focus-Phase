@@ -1,0 +1,903 @@
+#!python
+
+"""
+    Focus Phase (FP) is a simple yet powerful timer and time tracker. It is a command-line application that can be installed with one command. FP has two timers: one for when you know for how long you are going to work (like a Pomodoro timer), and the other for when you don't know in advance for how long you are going to work. FP keeps a log of all your work in a csv file. You can see statistics and graphs about your previous work also.
+
+    ## Topics and tags
+
+    FP uses "topics". A **topic** is a thing that you spend time working on. For example, when you want to work on a project called "abc" for 25 minutes, then you add the topic "abc" to FP (see below) then start the timer with the command 
+
+    ```
+    fcs abc 25
+    ```
+
+    If you want to work on "xyz", then add it to FP topics then run
+
+    ```
+    fcs xyz 25
+    ```
+
+    That's it. To give you more flexibility, FP implements **tags**. So, for example, if you want to work on "abc" and "abc" is a web-development project, then you can run 
+
+    ```
+    fcs abc 25 [web-dev]
+    ```
+
+    The previous examples are just one way to use FP. You can combine topics and tags and adapt them to your needs.
+
+    ## How to add topics?
+
+    Before you work on a topic for the first time, you must add it to FP topics easily with the command 
+
+    ```
+    fcs -a
+    ```
+
+    After that, you can start timers to work on that topic. To make things easier, when you add a topic, FP will ask you for its abbreviation to make typing it faster later. 
+
+    For example, if you have a topic named "x website front-end development", then instead of typing all of this every time you want to work, you might just type "xfd". 
+
+    ## Usage
+
+    There are three usage modes: two are timers and one is for configuration and statistics. 
+
+    > Items enclosed between square brackets are optional.    
+
+    ### Undetermined timer
+
+    ```
+    fcs TOPIC_ABBREVIATION [-c][[TAG1,TAG2,...]]
+    ```
+
+    The first mode of the timer: undetermined timer. Enter a topic abbreviation to start a timer that will stop when you press the keyboard interrupt keys (`Ctrl + C`).    If `-c` is present in the command, pressing the keyboard interrupt keys will make the user choose whether he wants to stop or pause the timer.    
+
+    Tags are optional. If they exist, they should be put inside square brackets (`[` and `]`), **they must be separated by only a comma (`,`), and they must not contain any spaces**. A valid example is `[TAG1,TAG2]`. An invalid example is `[TAG1, TAG2]` (notice the space).   
+
+    ### Predetermined timer
+
+    ```
+    fcs TOPIC_ABBREVIATION TIME [[TAG1,TAG2,...]]
+    ```
+
+    The second mode of the timer: predetermined timer. To start a timer, enter a topic abbreviation and the number of minutes you want to work on that topic. You can stop or pause this timer by pressing the keyboard interrupt keys (`Ctrl + C`). 
+
+    ### Statistics, visualization, and configuration
+
+    ```
+    fcs FUNCTION [PARAMETERS] 
+    ```
+
+    where FUNCTION can be one of the following:   
+
+    | Function                    | Description                                                  |
+    | :-------------------------- | ------------------------------------------------------------ |
+    | --add-topics, -a            | to add new topics                                            |
+    | --deletetopics, -d          | to delete topics (will not delete entries in the log related to the deleted topic) |
+    | --showtopics, -st           | to show all topics with their abbreviations                  |
+    | --deletealltopics, -da      | to delete all topics                                         |
+    | --showtags, -sta            | to show all tags used in all entries in the log              |
+    | --clearlog, -cl             | to delete all entries from the log file                      |
+    | --showlog, -sl              | to display a formatted table of the log entries              |
+    | --showlog:N, -sl:N          | to display a table of a selected info about the last N log entries |
+    | --backup, -b                | to create a backup of the log file and the topic file        |
+    | --today [TOPIC], -t [TOPIC] | to display the total time spent on TOPIC today. If TOPIC is not provided, total time spent today on all topics is calculated |
+    | --calc, -cal                | to calculate time spent on all topics, on a specified topic, or on a specified tag |
+    | --addentry, -ae             | to manually add an entry (not recommended for now)           |
+    | --deletelast, -dl           | to delete the last entry in the log                          |
+    | --visual, -v                | to see a visualization of the work done on a topic, the work done on all topics, or the work done on a certain tag over the last 30 days |
+
+    ## Examples
+
+    ### 1. Predetermined timer
+
+    If you want to work for 30 minutes on a building a web application named "xy zw" using Vue.js framework, then you should add this topic first (if this is your first time working on it):
+
+    ```
+    fcs -a
+    ```
+
+    The program will ask you for a topic abbreviation and a topic full name. Suppose that you entered "xyzw" for the abbreviation and "xy wz web application" for the full name. Then you start the timer with:
+
+    ```
+    fcs xyzw 30 [web-dev,vue.js]
+    ```
+
+    This will start a *predetermined* timer for 30 minutes, and it will save the session entry with the tags "web-dev" and "vue.js".
+
+    ### 2. Undetermined timer
+
+    If you want to work on a building a web application named "xy zw" using Vue.js framework, then you should add this topic first (if this is your first time working on it):
+
+    ```
+    fcs -a
+    ```
+
+    The program will ask you for a topic abbreviation and a topic full name. Suppose that you entered "xyzw" for the abbreviation and "xy wz web application" for the full name. Then you start the timer with:
+
+    ```
+    fcs xyzw [web-dev,vue.js]
+    ```
+
+    This will start an *undetermined* timer, and it will save the session entry with the tags "web-dev" and "vue.js". To stop the timer, press `Ctrl + C` on the keyboard.
+
+    ### 3. Statistics
+
+    To see for how many minutes you have worked today on the topic "xyzw" that we've added above:
+
+    ```
+    fcs -t xyzw
+    ```
+
+    It will display a message like:
+
+    > Today (23-December-2018), 50 minutes have been spent on xy wz web application
+
+    To see the time spent on all topics in all days:
+
+    ```
+    fcs -cal
+    ```
+
+    It will show you options to choose from; one of them is to calculate the time spent on all topics in all days.
+
+    To see a visualization of your work on "xyzw" topic over the last 30 days:
+
+    ```
+    fcs -v
+    ```
+
+    It will also display options to choose from and one of them achieves what we want in this example.
+
+    There are many things you can do. See the usage section for more.
+
+    ## Focus Phase components    
+
+    FP has two main files:
+
+    - A log file that keeps information about your previous sessions (like time elapsed, date of the session, etc)   
+    -  A file that contains the names and abbreviations of the topics you work on
+
+    ## Success Music
+
+    When you use the predetermined timer mode, and when you work for the whole specified period, a short music will be played. This feature is available on Mac computers only for now. 
+
+    ## How to get your data?
+
+    Run the backup command `fcs -b` and a message will tell you the path of the folder that contains the backup files. Go and get them from there.
+
+    ## Notes   
+
+    - Date of a session is calculated at the start of the session.      
+    - Add `-q` to the command to prevent playing sounds (quiet mode)
+"""
+
+import time
+import sys
+import shelve
+import shutil
+import os
+import random
+import subprocess
+import re
+import pandas as pd
+import webbrowser
+import platform
+from pkg_resources import resource_filename
+
+BASE_DIR_PATH = os.path.dirname(os.path.abspath(__file__))
+
+# RING_DIR = os.path.join(BASE_DIR_PATH, 'rings/')
+
+try:
+    RING_DIR = os.path.dirname(resource_filename('fcs_pkg.rings', '1.mp3'))
+except:
+    RING_DIR = None
+
+TOPIC_SHELF_FILE_PATH = os.path.join(BASE_DIR_PATH, 'fptopicsc')
+
+TAG_SHELF_FILE_PATH = os.path.join(BASE_DIR_PATH, 'fptags')
+
+LOG_PATH = os.path.join(BASE_DIR_PATH, 'fplog.csv')
+
+PRINTING_INTERVAL = 1
+
+pd.set_option('display.max_rows', 500)
+pd.set_option('display.max_columns', 500)
+pd.set_option('display.max_colwidth', -1)
+
+colors = {
+    'black': '\033[0;30;47m',
+    'black_b': '\033[1;30;47m',
+    'white': '\033[0;37;40m',
+    'white_b': '\033[1;37;40m',
+    'red': '\033[0;31;47m',
+    'red_b': '\033[1;31;47m',
+    'green': '\033[0;32;40m',
+    'green_b': '\033[1;32;40m',
+    'yellow': '\033[0;33;40m',
+    'yellow_b': '\033[1;33;40m',
+    'blue': '\033[0;34;47m',
+    'blue_b': '\033[1;34;47m',
+    'magenta': '\033[0;35;47m',
+    'magenta_b': '\033[1;35;47m',
+    'cyan': '\033[0;36;40m',
+    'cyan_b': '\033[1;36;40m',
+    'b': '\033[1m',
+    'reset': '\033[0m',
+    # Erases the entire current line and moves the cursor back to the start of
+    # it
+    'erm': '\033[2K\r',
+}
+
+
+def print_in_color(text, color, bold=False,
+                   end_with_newline=True, on_same_line=False):
+    if bold:
+        color += '_b'
+    color_code = colors[color]
+    if on_same_line:
+        print('{erm}{color_code}{text}{reset_code}'.format(
+            erm=colors['erm'], color_code=color_code, text=text,
+            reset_code=colors['reset']), end='', flush=True)
+    elif end_with_newline:
+        print('{color_code}{text}{reset_code}'.format(
+            color_code=color_code, text=text, 
+            reset_code=colors['reset']), flush=True)
+    else:
+        print('{color_code}{text}{reset_code}'.format(
+            color_code=color_code, text=text, reset_code=colors['reset']),
+              end='', flush=True)
+
+
+def timer(time_period=None):
+    """
+        The timer function.
+        time_period is optional
+    """
+
+    # controls the frequency of printing time passed in minutes (see below)
+    printing_period = PRINTING_INTERVAL
+    # initialize elapsed time
+    elapsed_time = 0
+    # initialize number of breaks
+    num_of_breaks = 0
+
+    def t():
+        nonlocal printing_period
+        nonlocal elapsed_time
+        nonlocal num_of_breaks
+
+        # start the timer
+        try:
+            # prevent computer sleep on Mac using caffeinate command
+            if platform.system() == "Darwin":
+                prevent_sleep = subprocess.Popen(
+                    ['caffeinate', '-d', '-i', '-m', '-s', '-u'])
+            while True:
+                # sleep for 1 minute
+                time.sleep(60)
+                # now increase elapsed time by 1 minute
+                elapsed_time += 1
+                # check if this is a suitable time to display the elapsed time
+                # if so, print something like: "2 minutes have passed"
+                if elapsed_time % printing_period == 0:
+                    print_in_color(text=str(elapsed_time),
+                                   color='blue', bold=True, end_with_newline=False, 
+                                   on_same_line=True)
+                    print_in_color(text=' minutes have passed', color='blue', 
+                                   bold=True, end_with_newline=False, on_same_line=False)
+                # if the mode is predetermined-timer mode, and the elapsed time is equal
+                # to the predetermined time, then stop, print total time spent, and return
+                # some values
+                if time_period and elapsed_time == time_period:
+                    print()
+                    print_in_color(
+                        'total elapsed time: {} minute(s) ≈ {} hour(s)'.format(
+                            elapsed_time, round(elapsed_time / 60, 2)), 'blue', bold=True)
+                    return (elapsed_time, num_of_breaks, False)
+        # if the timer is interrupted with keyboard interrupt
+        except KeyboardInterrupt:
+            if platform.system() == "Darwin":
+                prevent_sleep.kill()
+            print()
+            # check if the mode is the predetermined one, or if the mode is the second
+            # sub-mode of Undetermined
+            if time_period or ((not time_period) and '-c' in sys.argv):
+                # ask the user whether he wants to stop or pause the timer
+                action = ''
+                while action not in ('s', 'p'):
+                    action = input('stop or pause?  [s/p]  ')
+                    # if he wants to stop, stop, print some info, and return
+                    # some values
+                    if action == 's':
+                        print_in_color(
+                            'total elapsed time: {} minute(s) ≈ {} hour(s)'.format(
+                                elapsed_time, round(elapsed_time / 60, 2)), 'blue', bold=True)
+                        return (elapsed_time, num_of_breaks, True)
+                    # if he wants to pause, ask about the pause time, pause for
+                    # that time, increase the number of breaks variable, and re-run
+                    # the function t() after that. (That's why we defined nonlocal
+                    # variables at the start of t())
+                    elif action == 'p':
+                        # pause_time = int(input('pause for ___ minutes?  '))
+                        # time.sleep(pause_time * 60)
+                        num_of_breaks += 1
+                        input('Press Enter when you want to continue...')
+                        print('pause time ended')
+                        return t()
+            # if the mode is the first sub-mode of Undetermined mode, stop and
+            # return some values
+            else:
+                print_in_color(
+                    'total elapsed time: {} minute(s) ≈ {} hour(s)'.format(
+                        elapsed_time, round(elapsed_time / 60, 2)), 'blue', bold=True)
+                return (elapsed_time, num_of_breaks, True)
+        # allow the computer to sleep after the end of the timer
+        finally:
+            if platform.system() == "Darwin":
+                prevent_sleep.kill()
+    return t()
+
+
+def play_end_sound():
+    """
+    Plays a sound chosen randomly from the path RING_DIR. Supported formats are: mp3,
+    flac, m4a, aac, ac3, aiff, wav, wma.
+    """
+    if RING_DIR != None:
+        if not no_ring_dir:
+            rings = [a_file for a_file in os.listdir(RING_DIR) if a_file.endswith((
+                'mp3', 'flac', 'm4a', 'aac', 'ac3', 'aiff', 'wav', 'wma'))]
+            if len(rings) > 0:
+                random_ring = random.choice(rings)
+                subprocess.Popen(["afplay", os.path.join(RING_DIR, random_ring)])
+            else:
+                print("No ring files in {}.".format(RING_DIR), end=" ")
+                print("Put sound files (mp3, aac, m4a, etc) inside of it.")
+        else:
+            print("Warning: ring directory is missing.")
+            print("Create a directory 'rings' in {}, \n"
+                "and put sound files (mp3, aac, m4a, etc) inside of it.".format(BASE_DIR_PATH))
+            print("To run the program without sounds, add -q to the command.")
+
+
+# start parsing the command
+arg_len = len(sys.argv)
+
+# if no arguments are provided (i.e. just 'fp')
+if arg_len == 1:
+    print('No arguments provided. Use \'-h\' for more info.')
+    sys.exit()
+
+# if there is no topic file (`shelve` file), create a new dictionary to
+# save topics in, and save it later into a file
+if not os.path.exists(TOPIC_SHELF_FILE_PATH):
+    topic_shelf = {}
+# if there is, open it and read the topics dictionary from it
+else:
+    with shelve.open(TOPIC_SHELF_FILE_PATH) as topic_shelf_file:
+        topic_shelf = topic_shelf_file['topics']
+
+# Similar way is applied for tags
+if not os.path.exists(TAG_SHELF_FILE_PATH):
+    tag_shelf = set()
+else:
+    with shelve.open(TAG_SHELF_FILE_PATH) as tag_shelf_file:
+        tag_shelf = tag_shelf_file['tags']
+
+no_log_yet = False
+if not os.path.exists(LOG_PATH):
+    no_log_yet = True
+else:
+    df = pd.read_csv(LOG_PATH)
+
+if RING_DIR != None:
+    no_ring_dir = False
+    if not os.path.exists(RING_DIR):
+        no_ring_dir = True
+
+# now if sys.argv has more than one item
+# if the user inputs 'fp -h' or 'fp --help', display help text
+if sys.argv[1] in ('--help', '-h'):
+    print(__doc__)
+
+# adding topics: each topic entry consists of topic abbreviation and topic
+# full name
+elif sys.argv[1] in ('--add-topics', '-a'):
+    print('Adding topics')
+    print('When finished, press Enter without writing anything')
+    while True:
+        topic_abbreviation = input('Topic abbreviation:  ')
+        if topic_abbreviation == '':
+            break
+        if topic_abbreviation in topic_shelf.keys():
+            print('This abbreviation already exists. Choose another one.')
+        else:
+            topic_name = input('Topic full name:  ')
+            if topic_name in topic_shelf.values():
+                print('This topic already exists with another abbreviation.')
+            else:
+                topic_shelf[topic_abbreviation] = topic_name
+    # save the modifications to the topics file
+    with shelve.open(TOPIC_SHELF_FILE_PATH) as topic_shelf_file:
+        topic_shelf_file['topics'] = topic_shelf
+    print('Done')
+
+# deleting topics
+elif sys.argv[1] in ('--deletetopics', '-d'):
+    print('Deleting topics')
+    print('When finished, press Enter without writing anything')
+    while True:
+        topic_abbreviation = input('Topic abbreviation:  ')
+        if topic_abbreviation == '':
+            break
+        if topic_abbreviation not in topic_shelf.keys():
+            print_in_color('This topic doesn\'t exist', 'red', bold=True)
+        else:
+            print(
+                'Deleting: {}:{}'.format(
+                    topic_abbreviation,
+                    topic_shelf[topic_abbreviation]))
+            del topic_shelf[topic_abbreviation]
+    with shelve.open(TOPIC_SHELF_FILE_PATH) as topic_shelf_file:
+        topic_shelf_file['topics'] = topic_shelf
+    print('Done.')
+
+
+elif sys.argv[1] in ('--deletealltopics', '-da'):
+    print_in_color(
+        'Are you sure you want to delete all topics?  [y/n]',
+        color='red',
+        bold=True)
+    answer = input()
+    if answer == 'y':
+        topic_shelf = {}
+        with shelve.open(TOPIC_SHELF_FILE_PATH) as topic_shelf_file:
+            topic_shelf_file['topics'] = topic_shelf
+        print('Done')
+
+
+elif sys.argv[1] in ('--showtopics', '-st'):
+    for k, v in topic_shelf.items():
+        print(k.ljust(5, ' '), v, sep=': ')
+
+# Not uselful to delete tags
+# elif sys.argv[1] in ('--deletetags', '-dt'):
+#     print('When finished, press Enter without writing anything')
+#     while True:
+#         tag = input('Tag:  ')
+#         if tag == '':
+#             break
+#         if tag not in tag_shelf:
+#             print(tag_shelf)
+#             print_in_color('This tag doesn\'t exist', 'red')
+#         else:
+#             tag_shelf.remove(tag)
+#     with shelve.open(TAG_SHELF_FILE_PATH) as tag_shelf_file:
+#         tag_shelf_file['tags'] = tag_shelf
+#     print('Done.')
+
+
+# elif sys.argv[1] in ('--deletealltags', '-dat'):
+#     tag_shelf = {}
+#     with shelve.open(TAG_SHELF_FILE_PATH) as tag_shelf_file:
+#         tag_shelf_file['tags'] = tag_shelf
+#     print('Done.')
+
+
+elif sys.argv[1] in ('--showtags', '-sta'):
+    for tag in tag_shelf:
+        print(tag)
+
+elif sys.argv[1] in ('--showlog', '-sl'):
+    if os.path.exists(LOG_PATH):
+        html_string = '''
+                    <html>
+                        <head><title>Log</title></head>
+                        <link rel="stylesheet" type="text/css" href="df_style.css"/>
+                        <body>
+                            {table}
+                        </body>
+                    </html>
+                    '''
+        html_file_path = os.path.join(BASE_DIR_PATH, 'dfd.html')
+        with open(html_file_path, 'w') as f:
+            f.write(html_string.format(table=df.rename(columns={
+                'topics': 'Topics', 'elapsed_time': 'Elapsed time',
+                'date': 'Date', 'session_start': 'Session start',
+                'session_end': 'Session end', 'breaks': 'Breaks',
+                'is_stopped': 'Is stopped?', 'tags': 'Tags',
+                'mode': 'Mode', 'timestamp': 'Timestamp'
+            }).to_html(na_rep="", index=False)))
+
+        # df.to_html(os.path.join(BASE_DIR_PATH, 'dfd.html'))
+        webbrowser.open('file://' + html_file_path, new=1, autoraise=True)
+    else:
+        print_in_color('There is no log yet.', 'red', bold=True)
+
+elif sys.argv[1].startswith('--showlog:') or sys.argv[1].startswith('-sl:'):
+    if os.path.exists(LOG_PATH):
+        num_of_entries = int(sys.argv[1].split(sep=':')[1])
+        html_string = '''
+                    <html>
+                        <head><title>Log</title></head>
+                        <link rel="stylesheet" type="text/css" href="df_style.css"/>
+                        <body>
+                            {table}
+                        </body>
+                    </html>
+                    '''
+        html_file_path = os.path.join(BASE_DIR_PATH, 'dfd.html')
+        cdf = df.tail(num_of_entries)[["topics", "elapsed_time", "date", "session_start", "session_end", "tags", "mode"]]
+        with open(html_file_path, 'w') as f:
+            f.write(html_string.format(table=cdf.rename(columns={
+                'topics': 'Topics', 'elapsed_time': 'Elapsed time',
+                'date': 'Date', 'session_start': 'Session start',
+                'session_end': 'Session end', 'tags': 'Tags',
+                'mode': 'Mode'
+            }).to_html(na_rep="", index=False)))
+        webbrowser.open('file://' + os.path.join(BASE_DIR_PATH, 'dfd.html'), 
+                        new=1, autoraise=True)
+    else:
+        print_in_color('There is no log yet.', 'red', bold=True)
+
+
+elif sys.argv[1] in ('--clearlog', '-cl'):
+    ans = input('Are you sure you want to delete all log entries?  [y/n]  ')
+    if ans == 'y':
+        if os.path.exists(LOG_PATH):
+            df = df.iloc[0:0]
+            df.to_csv(LOG_PATH, index=False)
+            print('Done')
+        else:
+            print_in_color('There is no log yet.', 'red', bold=True)
+
+
+elif sys.argv[1] in ('--backup', '-b'):
+    # if there is no directory for backups, create one
+    if not os.path.exists(os.path.join(BASE_DIR_PATH, 'fpbackups')):
+        os.mkdir(os.path.join(BASE_DIR_PATH, 'fpbackups'))
+    # make a backup for the log
+    if os.path.exists(LOG_PATH):
+        shutil.copy2(LOG_PATH,
+                     os.path.join(BASE_DIR_PATH, 'fpbackups/log_{}.csv').format(time.strftime('%d-%B-%Y_%H-%M')))
+        print('Log file backup was created.')
+    else:
+        print_in_color('There is no log yet.', 'red', bold=True)
+    # make a backup for the topics
+    if os.path.exists(TOPIC_SHELF_FILE_PATH):
+        shutil.copy2(TOPIC_SHELF_FILE_PATH,
+                     os.path.join(BASE_DIR_PATH, 'fpbackups/topics_{}').format(time.strftime('%d-%B-%Y_%H-%M')))
+        print('Topic file backup was created.')
+    else:
+        print_in_color('There is no topics yet.', 'red')
+    # make a backup for the tags
+    if os.path.exists(TAG_SHELF_FILE_PATH):
+        shutil.copy2(TAG_SHELF_FILE_PATH,
+                     os.path.join(BASE_DIR_PATH, 'fpbackups/tags_{}').format(time.strftime('%d-%B-%Y_%H-%M')))
+        print('Tag file backup was created.')
+    else:
+        print_in_color('There is no tags yet.', 'red', bold=True)
+    print("Backup files are in:")
+    print(os.path.join(BASE_DIR_PATH, 'fpbackups'))
+    print('Done')
+
+elif sys.argv[1] in ('--today', '-t'):
+    if len(sys.argv) > 2:
+        topic = topic_shelf[sys.argv[2]]
+    today = time.strftime('%d-%B-%Y')
+    if os.path.exists(LOG_PATH):
+        cdf = df[df['timestamp'].apply(
+            lambda x: today == time.strftime('%d-%B-%Y', time.localtime(x)))]
+        if len(sys.argv) > 2:
+            cdf = cdf[cdf['topics'].str.contains(topic)]
+            print('Today ({}), {} minutes have been spent on {}'.format(
+                today, int(cdf['elapsed_time'].sum()), topic))
+        else:
+            print('Today ({}), a total of {} minutes have been spent on {}'.format(
+                today, int(cdf['elapsed_time'].sum()), ', '.join(
+                    [str(x) for x in cdf['topics'].unique()])
+            ))
+    else:
+        print_in_color('There is no log yet.', 'red', bold=True)
+
+
+elif sys.argv[1] in ('--calc', '-cal'):
+    print('''
+    Options:
+    1. Calculate the time spent on all topics
+    2. Calculate the time spent on a certain topic
+    3. Calculate the time spent on a ceratin tag
+
+    Enter the option number:  ''', end='')
+    # read user option
+    option = input()
+
+    # read topic or tag if option is 2 or 3
+    if option == '2':
+        print()
+        print('Enter the topic abbreviation:  ', end='')
+        try:
+            topic = topic_shelf[input()]
+        except KeyError:
+            print_in_color(
+                'There is no topic with this abbreviation.',
+                'red',
+                bold=True)
+    elif option == '3':
+        print()
+        print('Enter the tag:  ', end='')
+        tag = input()
+        if tag not in tag_shelf:
+            print_in_color('This tag does not exist.', 'red', bold=True)
+
+    # do the calculations
+    if os.path.exists(LOG_PATH):
+        if option == '1':
+            minute_sum = df['elapsed_time'].sum()
+            print_in_color('Time spent on all topics: ',
+                           'yellow', bold=True, end_with_newline=False)
+        elif option == '2':
+            minute_sum = df[df['topics'].str.contains(
+                topic)]['elapsed_time'].sum()
+            print_in_color('Time spent on ' + topic + ': ',
+                           'magenta', bold=True, end_with_newline=False)
+        elif option == '3':
+            minute_sum = df[df['tags'].str.contains(
+                tag, na=False)]['elapsed_time'].sum()
+            print_in_color('Time spent on ' + tag + ': ',
+                           'magenta', bold=True, end_with_newline=False)
+        print_in_color(str(minute_sum) + ' minutes ≈ ' + str(round((minute_sum / 60), 2)) + ' hours',
+                       'yellow', bold=True)
+    else:
+        print_in_color('There is no log yet.', 'red', bold=True)
+
+
+elif sys.argv[1] in ('--addentry', '-ae'):
+    df_vars = [
+        'Topic abbreviation(s)',
+        'Elapsed time in minutes',
+        'Date',
+        'Tags']
+    formats = ['wd/wd;rd', '25', 'Monday 04-October-2018', 'tag 1,tag 2']
+    es = {}
+    for v, f in zip(df_vars, formats):
+        es[v] = input(v + '(format/example: {}) '.format(f))
+    for t in es['Topic abbreviation(s)'].split(sep=';'):
+        if t not in topic_shelf:
+            print(
+                'There is no topic with this abbreviation: '.format(
+                    es['Topic abbreviation(s)']))
+            sys.exit()
+    es['Topic abbreviation(s)'] = ';'.join([topic_shelf[t]
+                                            for t in es['Topic abbreviation(s)'].split(sep=';')])
+    if not re.search(r"^\d+$", es['Elapsed time in minutes']):
+        print('The time you entered doesn\'t follow the required format. \nEnter just the number of minutes.')
+        sys.exit()
+    if not re.search(r"^[a-zA-Z]+ \d\d-[a-zA-Z]+-\d\d\d\d", es['Date']):
+        print('The date you entered doesn\'t follow the required format.')
+        sys.exit()
+    if not re.search(r"^([\w\s]+?|([\w\s]+?,)+?[\w\s]+?)$", es['Tags']):
+        print('The tags you entered don\'t follow the required format. \nEnter tags as: tag 1,tag 2...')
+        sys.exit()
+    data = {
+        'topics': es['Topic abbreviation(s)'],
+        'elapsed_time': int(es['Elapsed time in minutes']),
+        'date': es['Date'],
+        'session_start': 'NA_userEntry',
+        'session_end': 'NA_userEntry',
+        'breaks': -1,
+        'is_stopped': 'NA_userEntry',
+        'tags': ', '.join([t.strip() for t in es['Tags'].split(sep=',')]),
+        'mode': 'user_entry',
+        'timestamp': -1
+    }
+    if no_log_yet:
+        df = pd.DataFrame({k: pd.Series(v) for k, v in data.items()})
+    else:
+        df.loc[df.shape[0], :] = tuple(data.values())
+    df.to_csv(LOG_PATH, index=False)
+    print('Done')
+
+elif sys.argv[1] in ('--deletelast', '-dl'):
+    ans = input('Are you sure you want to delete last log entry?  [y/n]  ')
+    if ans == 'y':
+        if os.path.exists(LOG_PATH):
+            df.drop(df.index[df.shape[0] - 1], axis=0, inplace=True)
+            df.to_csv(LOG_PATH, index=False)
+            print('Done')
+        else:
+            print_in_color('There is no log yet.', 'red', bold=True)
+
+
+elif sys.argv[1] in ('--visual', '-v'):
+    from matplotlib import pyplot as plt, patches as mpatches
+
+    plt.rc('figure', figsize=(8, 5), dpi=100, facecolor="#333333")
+    plt.rc(
+        'axes',
+        labelpad=20,
+        facecolor="#333333",
+        linewidth=0.4,
+        grid=True,
+        labelsize=14)
+    plt.rc('patch', linewidth=0)
+    plt.rc('xtick.major', width=0.2)
+    plt.rc('ytick.major', width=0.2)
+    plt.rc('xtick', color="#f9f9f9")
+    plt.rc('ytick', color="#f9f9f9")
+    plt.rc('grid', color='#9E9E9E', linewidth=0.1)
+    plt.rc('font', family='Arial', weight='400', size=10)
+    plt.rc('text', color='#ffffff')
+    plt.rc('savefig', pad_inches=0.3, dpi=300)
+
+    def plot_bar(cdf):
+        """
+        cdf is a series whose index represents the days (`strftime` string) and 
+        whose values represent the durations
+        """
+        print(cdf)
+        days = list(cdf.index)
+        durations = list(cdf.values)
+        # create a sorted lists of days and durations
+        days, durations = zip(*sorted(zip(days, durations), 
+                                key=lambda x: time.strptime(x[0], "%A %d-%B-%Y")))
+
+        num_days = len(days)
+        # get durations for last 30 days
+        durations = durations#[num_days-30:]
+        # get the year for last 30 days
+        years = [time.strptime(d, "%A %d-%B-%Y").tm_year for d in days]#[num_days-30:]
+        # get the day and month for last 30 days
+        days = [time.strftime("%d %b", time.strptime(d, "%A %d-%B-%Y")) for d in days]#[num_days-30:]
+        
+        # plot
+        fig, ax = plt.subplots(figsize=(12, 8))
+        # create a list of colors for years
+        bar_colors = [
+            "#ffa600",
+            "#ff6e54",
+            "#dd5182",
+            "#955196",
+            "#444e86",
+            "#003f5c"
+        ]
+        unique_years = sorted(set(years))
+        huc = [bar_colors[unique_years.index(y)] for y in years]
+        # create legends
+        legend_handles = []
+        for i, y in enumerate(unique_years):
+            legend_handles.append(mpatches.Patch(color=bar_colors[i], label=str(y)))
+        ax.bar(x=range(len(days)), tick_label=days, height=durations, color=huc)
+        ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+        ax.legend(handles=legend_handles, fancybox=True)
+
+        # plt.tight_layout()
+        plt.show()
+
+
+    print('''
+    Options:
+    1. Work done on a topic over the last 30 days
+    2. Work done on all topics over the last 30 days
+    3. Work done on a ceratin tag over the last 30 days
+
+    Enter the option number:  ''', end='')
+    # read user option
+    option = input()
+
+    if option == '1':
+        print()
+        print('Enter the topic abbreviation:  ', end='')
+        try:
+            topic = topic_shelf[input()]
+        except KeyError:
+            print_in_color(
+                'There is no topic with this abbreviation.',
+                'red',
+                bold=True)
+            sys.exit()
+        cdf = df[df['topics'].str.contains(topic)]
+        # for each day, get the total elapsed time
+        cdf = cdf.groupby('date', sort=False)['elapsed_time'].sum()
+        plot_bar(cdf)
+    
+    elif option == "2":
+        print()
+        # for each day, get the total elapsed time
+        cdf = df.groupby('date', sort=False)['elapsed_time'].sum()
+        plot_bar(cdf)
+
+    elif option == "3":
+        print()
+        print('Enter the tag:  ', end='')
+        tag = input()
+        if tag not in tag_shelf:
+            print_in_color('This tag does not exist.', 'red', bold=True)
+            sys.exit()
+        cdf = df[df['tags'].str.contains(tag, na=False)]
+        cdf = cdf.groupby('date', sort=False)['elapsed_time'].sum()
+        plot_bar(cdf)
+
+else:
+    # get the topics from the command
+    topics = sys.argv[1].split(sep=',')
+    topic_does_not_exist = False
+    for t in topics:
+        if t not in topic_shelf.keys():
+            print_in_color(
+                'Topic abbreviation \'{}\' doesn\'t exist.'.format(t), 'red', bold=True)
+            topic_does_not_exist = True
+    if topic_does_not_exist:
+        sys.exit()
+
+    if len(sys.argv) > 2 and re.match(r"^\d+$", sys.argv[2]):
+        time_period = int(sys.argv[2])
+    else:
+        time_period = None
+
+    start_time = time.strftime('%H:%M')
+    date = time.strftime('%A %d-%B-%Y')
+    timestamp = time.time()
+    print('Starting.. Time now is {}'.format(start_time))
+    elapsed_time, num_of_breaks, is_stopped = timer(time_period)
+    end_time = time.strftime('%H:%M')
+    print('Session end. Time now is {}'.format(end_time))
+
+    # get tags from the command, update the tag shelf, and create a tag string
+    # to be added to the log
+    tags = ''
+    for arg in sys.argv:
+        if arg.startswith('[') and arg.endswith(']'):
+            tag_list = arg[1:-1].split(',')
+            tag_shelf.update(tag_list)
+            tags = ', '.join(tag_list)
+            # save tag shelf
+            with shelve.open(TAG_SHELF_FILE_PATH) as tag_shelf_file:
+                tag_shelf_file['tags'] = tag_shelf
+
+    topic_str = ';'.join([topic_shelf[t] for t in topics])
+    is_stopped_str = 'yes' if is_stopped else 'no'
+    if time_period:
+        mode = 'predetermined'
+    elif '-c' not in sys.argv:
+        mode = 'undetermined'
+    else:
+        mode = 'undetermined-pausable'
+
+    data = {
+        'topics': topic_str,
+        'elapsed_time': int(elapsed_time),
+        'date': date,
+        'session_start': start_time,
+        'session_end': end_time,
+        'breaks': int(num_of_breaks),
+        'is_stopped': is_stopped_str,
+        'tags': tags,
+        'mode': mode,
+        'timestamp': timestamp
+    }
+
+    if no_log_yet:
+        df = pd.DataFrame({k: pd.Series(v) for k, v in data.items()})
+
+    else:
+        df.loc[df.shape[0],
+               :] = (topic_str,
+                     elapsed_time,
+                     date,
+                     start_time,
+                     end_time,
+                     num_of_breaks,
+                     is_stopped_str,
+                     tags,
+                     mode,
+                     timestamp)
+
+    df.to_csv(LOG_PATH, index=False)
+
+    # on Mac devices, play a sound when the predetermined period is fninshed
+    # completely
+    if time_period and elapsed_time == time_period and '-q' not in sys.argv:
+        if platform.system() == "Darwin":
+            play_end_sound()
