@@ -17,7 +17,7 @@ setuptools.setup(
      description="A simple, powerful, and open-source time tracker from the command line",
      long_description=long_description,
      long_description_content_type="text/markdown",
-     url="https://github.com/javatechy/dokr",
+     url="https://github.com/ammar1y/Focus-Phase",
      packages=setuptools.find_packages(),
     #  packages=["fcs_pkg"],
     #  package_dir={'fcs_pkg': 'fcs_pkg'},
