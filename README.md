@@ -1,4 +1,10 @@
-Focus Phase (FP) is a simple yet powerful timer and time tracker. It is a command-line application that can be installed with one command. FP has two timers: one for when you know for how long you are going to work (like a Pomodoro timer), and the other for when you don't know in advance for how long you are going to work. FP keeps a log of all your work in a csv file. You can see statistics and graphs about your previous work also.
+# Focus Phase
+
+![](FP-header-img.png)
+
+Focus Phase (FP) is a simple yet powerful timer and time tracker. It is a command-line application written in Python and can be installed with one command. 
+
+FP has two timers: one for when you know for how long you are going to work (like a Pomodoro timer), and the other for when you don't know in advance for how long you are going to work. FP keeps a log of all your work in a csv file on your device. FP allows you to see statistics and graphs about your previous work also.
 
 ## Topics and tags
 
