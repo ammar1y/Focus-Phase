@@ -12,9 +12,13 @@ FP has two timers: one for when you know for how long you are going to work (lik
 
 To learn how to install and use Focus Phase and how it works, visit the Github page:
 
+
+
 <a href="https://github.com/ammar1y/Focus-Phase"><img src="get-started.png" width="140"></a>
 
-##Features
+
+
+## Features
 
 #### 💧 Easy to use
 
