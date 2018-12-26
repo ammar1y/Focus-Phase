@@ -1,4 +1,4 @@
-<div style="text-align:right"><img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" width=50></div>
+<img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" width=50>
 
 # Focus Phase
 
