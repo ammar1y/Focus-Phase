@@ -1,7 +1,11 @@
 import setuptools
 import os
+import re
 with open("README.md", "r") as fh:
     long_description = fh.read()
+    long_description = re.sub(r"!\[.+\)", "", long_description)
+    long_description = re.sub(r"<img.+>", "", long_description)
+    long_description = re.sub(r"\n\n\n", "\n\n", long_description)
 thelibFolder = os.path.dirname(os.path.realpath(__file__))
 requirementPath = thelibFolder + '/requirements.txt'
 install_requires = []
@@ -10,7 +14,7 @@ if os.path.isfile(requirementPath):
         install_requires = f.read().splitlines()
 setuptools.setup(
      name='fcs',  
-     version='0.2',
+     version='0.5',
      scripts=['fcs_pkg/fcs'],
      author="Ammar Alyousfi",
      author_email="ammar5656@gmail.com",

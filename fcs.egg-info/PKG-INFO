@@ -1,12 +1,31 @@
 Metadata-Version: 2.1
 Name: fcs
-Version: 0.2
+Version: 0.5
 Summary: A simple, powerful, and open-source time tracker from the command line
-Home-page: https://github.com/javatechy/dokr
+Home-page: https://github.com/ammar1y/Focus-Phase
 Author: Ammar Alyousfi
 Author-email: ammar5656@gmail.com
 License: UNKNOWN
-Description: Focus Phase (FP) is a simple yet powerful timer and time tracker. It is a command-line application that can be installed with one command. FP has two timers: one for when you know for how long you are going to work (like a Pomodoro timer), and the other for when you don't know in advance for how long you are going to work. FP keeps a log of all your work in a csv file. You can see statistics and graphs about your previous work also.
+Description: <div style="text-align:right">
+        
+        # Focus Phase
+        
+        Focus Phase (FP) is a simple yet powerful timer and time tracker. It is a command-line application written in Python and can be installed with one command. 
+        
+        
+        FP has two timers: one for when you know for how long you are going to work (like a Pomodoro timer), and the other for when you don't know in advance for how long you are going to work. FP keeps a log of all your work in a csv file on your device. FP allows you to see statistics and graphs about your previous work also.
+        
+        📄 Below is an explanation on how to install and use FP.
+        
+        ## How to install?
+        
+        Install easily with `pip`:
+        
+        ```shell
+        pip3 install fcs
+        ```
+        
+        This will install FP dependencies if not already installed.
         
         ## Topics and tags
         
@@ -58,7 +77,7 @@ Description: Focus Phase (FP) is a simple yet powerful timer and time tracker. I
         
         Tags are optional. If they exist, they should be put inside square brackets (`[` and `]`), **they must be separated by only a comma (`,`), and they must not contain any spaces**. A valid example is `[TAG1,TAG2]`. An invalid example is `[TAG1, TAG2]` (notice the space).   
         
-         ### Predetermined timer
+        ### Predetermined timer
         
         ```shell
         fcs TOPIC_ABBREVIATION TIME [[TAG1,TAG2,...]]
@@ -75,7 +94,7 @@ Description: Focus Phase (FP) is a simple yet powerful timer and time tracker. I
         where FUNCTION can be one of the following:   
         
         | Function                    | Description                                                  |
-        | :-------------------------- | ------------------------------------------------------------ |
+        | :-------------------------- | :----------------------------------------------------------- |
         | --add-topics, -a            | to add new topics                                            |
         | --deletetopics, -d          | to delete topics (will not delete entries in the log related to the deleted topic) |
         | --showtopics, -st           | to show all topics with their abbreviations                  |
@@ -160,7 +179,7 @@ Description: Focus Phase (FP) is a simple yet powerful timer and time tracker. I
         FP has two main files:
         
         - A log file that keeps information about your previous sessions (like time elapsed, date of the session, etc)   
-        -  A file that contains the names and abbreviations of the topics you work on
+        - A file that contains the names and abbreviations of the topics you work on
         
         ## Success Music
         
