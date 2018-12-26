@@ -12,7 +12,7 @@ FP has two timers: one for when you know for how long you are going to work (lik
 
 To learn how to install and use Focus Phase and how it works, visit the Github page:
 
-<a href="https://github.com/ammar1y/Focus-Phase"><img src="get-started.png" width="100"></a>
+<div style="text-align:center"><a href="https://github.com/ammar1y/Focus-Phase"><img src="get-started.png" width="100"></a></div>
 
 # Features
 
@@ -44,7 +44,7 @@ Focus Phase has many more features that let you control how the program work
 
 ### Don't take our word for it! Try it out yourself!
 
-<a href="https://github.com/ammar1y/Focus-Phase"><img src="get-started.png" width="100"></a>
+<div style="text-align:left"><a href="https://github.com/ammar1y/Focus-Phase"><img src="get-started.png" width="150"></a></div>
 
 <br>
 
@@ -52,7 +52,7 @@ Focus Phase has many more features that let you control how the program work
 
 For any suggestion or enquiry, contact me by [my email](mailto:ammar5656@gmail.com). 
 
-Visit [my website](http://ammar-alyousfi.com/) for more projects.
+Visit [my website](http://ammar-alyousfi.com/) for more projects. Support me (<a href="https://paypal.me/ammar1y" target="_blank"><strong>PayPal</strong></a>).
 
 [LinkedIn](https://linkedin.com/in/ammar-alyousfi/) \| [Twitter](https://twitter.com/ammar_cel) \| [Github](https://github.com/ammar1y) 
 
