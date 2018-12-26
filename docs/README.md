@@ -1,4 +1,4 @@
-<img src="sm-logo.png" width=50>
+<img src="sm-logo.png" width="50">
 
 Focus Phase (FP) is a **simple** yet **powerful** timer and **time tracker**. It is a command-line application written in Python and can be installed with one command. 
 
@@ -36,13 +36,9 @@ All logs are saved in formatted csv files on your device so you can use it howev
 
 Focus Phase has many more features that let you control how the program work
 
-<br>
-
 ### Don't take our word for it! Try it out yourself!
 
 <a href="https://github.com/ammar1y/Focus-Phase"><img src="get-started.png" width="150"></a>
-
-<br>
 
 ---
 
@@ -50,7 +46,7 @@ For any suggestion or enquiry, contact me by [my email](mailto:ammar5656@gmail.c
 
 Visit [my website](http://ammar-alyousfi.com/) for more projects.
 
-[LinkedIn](https://linkedin.com/in/ammar-alyousfi/) | [Twitter](https://twitter.com/ammar_cel) | [Github](https://github.com/ammar1y) 
+[LinkedIn](https://linkedin.com/in/ammar-alyousfi/) \| [Twitter](https://twitter.com/ammar_cel) \| [Github](https://github.com/ammar1y) 
 
 © Ammar Alyousfi 2018
 
