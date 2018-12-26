@@ -1,6 +1,8 @@
 <br>
 
-<div style="text-align:center"><img src="sm-logo.png" width="50"></div>
+<div style="text-align:center;"><img src="sm-logo.png" width="50"></div>
+
+<br>
 
 Focus Phase (FP) is a **simple** yet **powerful** timer and **time tracker**. It is a command-line application written in Python and can be installed with one command. 
 
