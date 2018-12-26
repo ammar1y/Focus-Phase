@@ -6,7 +6,7 @@ Focus Phase (FP) is a simple yet powerful timer and time tracker. It is a comman
 
 FP has two timers: one for when you know for how long you are going to work (like a Pomodoro timer), and the other for when you don't know in advance for how long you are going to work. FP keeps a log of all your work in a csv file on your device. FP allows you to see statistics and graphs about your previous work also.
 
-<img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" width=50>
+<a><img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" width=50 /></a>
 
 📄 Below is an explanation on how to install and use FP.
 
