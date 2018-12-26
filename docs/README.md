@@ -14,7 +14,7 @@ To learn how to install and use Focus Phase and how it works, visit the Github p
 
 <a href="https://github.com/ammar1y/Focus-Phase"><img src="get-started.png" width="100"></a>
 
-## Features
+# Features
 
 #### 💧 Easy to use
 
@@ -44,7 +44,7 @@ Focus Phase has many more features that let you control how the program work
 
 ### Don't take our word for it! Try it out yourself!
 
-<a href="https://github.com/ammar1y/Focus-Phase"><img src="get-started.png" width="110"></a>
+<a href="https://github.com/ammar1y/Focus-Phase"><img src="get-started.png" width="100"></a>
 
 <br>
 
