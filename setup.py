@@ -14,7 +14,7 @@ if os.path.isfile(requirementPath):
         install_requires = f.read().splitlines()
 setuptools.setup(
      name='fcs',  
-     version='0.5',
+     version='0.6',
      scripts=['fcs_pkg/fcs'],
      author="Ammar Alyousfi",
      author_email="ammar5656@gmail.com",
