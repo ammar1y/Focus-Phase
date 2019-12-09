@@ -271,9 +271,9 @@ try:
 except:
     RING_DIR = None
 
-TOPIC_SHELF_FILE_PATH = os.path.join(BASE_DIR_PATH, 'fptopicsc')
+TOPIC_SHELF_FILE_PATH = os.path.join(BASE_DIR_PATH, FILE_NAME_TOPICS)
 
-TAG_SHELF_FILE_PATH = os.path.join(BASE_DIR_PATH, 'fptags')
+TAG_SHELF_FILE_PATH = os.path.join(BASE_DIR_PATH, FILE_NAME_TAGS)
 
 LOG_PATH = os.path.join(BASE_DIR_PATH, 'fplog.csv')
 
